@@ -1,0 +1,99 @@
+{% extends 'student_template/base_template.html' %}
+
+{% block custom_css %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+    }
+
+    .attendance-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .attendance-table th,
+    .attendance-table td {
+        padding: 15px;
+        text-align: center;
+    }
+
+    .attendance-table th {
+        background-color: #007BFF;
+        color: white;
+        font-weight: bold;
+    }
+
+    .attendance-table tr {
+        transition: background-color 0.3s;
+    }
+
+    .attendance-table tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .present {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .absent {
+        background-color: #f44336;
+        color: white;
+    }
+
+    .attendance-header {
+        margin: 0;
+        font-size: 24px;
+        text-align: center;
+        padding: 20px;
+    }
+</style>
+{% endblock custom_css %}
+
+{% block page_title %}
+    View Attendance Data
+{% endblock page_title %}
+
+{% block main_content %}
+{% load static %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="attendance-header">Attendance Data for {{ subject_obj.subject_name }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="attendance-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for attendance_report in attendance_reports %}
+                                    <tr class="{% if attendance_report.status %}present{% else %}absent{% endif %}">
+                                        <td>{{ attendance_report.attendance_id.attendance_date }}</td>
+                                        <td>[ Status: {% if attendance_report.status %}Present{% else %}Absent{% endif %} ]</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+{% endblock main_content %}
+
+{% block custom_js %}
+{% endblock custom_js %}

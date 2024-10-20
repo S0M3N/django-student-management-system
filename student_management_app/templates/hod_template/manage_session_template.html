@@ -1,0 +1,74 @@
+{% extends 'hod_template/base_template.html' %}
+
+{% block page_title %}
+    Manage Session
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+
+<section class="py-8">
+    <div class="container mx-auto">
+        <div class="flex justify-between mb-4">
+            <a class="btn btn-primary" href="{% url 'add_session' %}" role="button">+ Add Session</a>
+        </div>
+
+        {% if messages %}
+        <div class="mb-4">
+            <div>
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-2" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <div class="mb-4 flex justify-between items-center">
+                <h3 class="text-xl font-semibold">Session Details</h3>
+                <div class="flex">
+                    <div class="relative">
+                        <input type="text" name="table_search" class="form-control border rounded-lg p-2" placeholder="Search">
+                        <button type="submit" class="absolute right-0 top-0 mt-1 mr-2">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-300">
+                    <thead>
+                        <tr>
+                            <th class="py-2 px-4 border-b text-left">ID</th>
+                            <th class="py-2 px-4 border-b text-left">Session Start Year</th>
+                            <th class="py-2 px-4 border-b text-left">Session End Year</th>
+                            <th class="py-2 px-4 border-b text-left">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for session_year in session_years %}
+                        <tr class="hover:bg-gray-100">
+                            <td class="py-2 px-4 border-b">{{ session_year.id }}</td>
+                            <td class="py-2 px-4 border-b">{{ session_year.session_start_year }}</td>
+                            <td class="py-2 px-4 border-b">{{ session_year.session_end_year }}</td>
+                            <td class="py-2 px-4 border-b">
+                                <a href="{% url 'edit_session' session_year.id %}" class="text-green-600 hover:underline">Edit</a>
+                                <a href="{% url 'delete_session' session_year.id %}" class="text-red-600 hover:underline ml-2">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+{% endblock main_content %}

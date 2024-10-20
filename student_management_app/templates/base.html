@@ -1,0 +1,48 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Student Management System | Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Tailwind CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  <!-- Optional Google Font -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body>
+
+{% block content %}
+<div class="container mx-auto p-6">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Example Card -->
+    <div class="shadow-lg bg-blue-600 text-white rounded-lg">
+      <div class="p-4">
+        <h3 class="text-lg font-bold">Add Student</h3>
+      </div>
+      <!-- Form elements go here -->
+    </div>
+    
+    <!-- Another Example Card -->
+    <div class="shadow-lg bg-green-500 text-white rounded-lg">
+      <div class="p-4">
+        <h3 class="text-lg font-bold">Student List</h3>
+      </div>
+      <!-- Content goes here -->
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+<!-- Optional: jQuery if needed -->
+<script src="{% static 'jquery/jquery.min.js' %}"></script>
+
+<!-- Optional: Alpine.js for interactivity -->
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.9.1/dist/cdn.min.js"></script>
+</body>
+</html>

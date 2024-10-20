@@ -1,0 +1,104 @@
+{% extends 'hod_template/base_template.html' %}
+
+{% block page_title %}
+    Manage Student
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+
+<section class="content">
+    <div class="container mx-auto p-4">
+
+        <a class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" href="{% url 'add_student' %}" role="button">+ Add Student</a>
+        <br /><br />
+
+        {% if messages %}
+        <div class="mb-4">
+            {% for message in messages %}
+            {% if message.tags == "error" %}
+                <div class="bg-red-500 text-white p-2 rounded mb-2 flex justify-between items-center">
+                    <span>{{ message }}</span>
+                    <button type="button" class="text-white ml-2" onclick="this.parentElement.style.display='none'">&times;</button>
+                </div>
+            {% elif message.tags == "success" %}
+                <div class="bg-green-500 text-white p-2 rounded mb-2 flex justify-between items-center">
+                    <span>{{ message }}</span>
+                    <button type="button" class="text-white ml-2" onclick="this.parentElement.style.display='none'">&times;</button>
+                </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="mt-4">
+
+            <div class="w-full">
+                <div class="bg-white shadow-md rounded-lg p-4">
+                    <h3 class="text-lg font-semibold mb-4">Student Details</h3>
+
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="relative w-1/4">
+                            <input type="text" name="table_search" class="border border-gray-300 rounded-lg p-2 w-full" placeholder="Search">
+                            <button type="submit" class="absolute right-0 top-0 mt-2 mr-2">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white border border-gray-300">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="py-2 px-4 border-b">ID</th>
+                                    <th class="py-2 px-4 border-b">First Name</th>
+                                    <th class="py-2 px-4 border-b">Last Name</th>
+                                    <th class="py-2 px-4 border-b">Username</th>
+                                    <th class="py-2 px-4 border-b">Email</th>
+                                    <th class="py-2 px-4 border-b">Address</th>
+                                    <th class="py-2 px-4 border-b">Gender</th>
+                                    <th class="py-2 px-4 border-b">Profile Pic</th>
+                                    <th class="py-2 px-4 border-b">Start Year</th>
+                                    <th class="py-2 px-4 border-b">End Year</th>
+                                    <th class="py-2 px-4 border-b">Course</th>
+                                    <th class="py-2 px-4 border-b">Last Login</th>
+                                    <th class="py-2 px-4 border-b">Date Joined</th>
+                                    <th class="py-2 px-4 border-b">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in students %}
+                                <tr class="hover:bg-gray-100">
+                                    <td class="py-2 px-4 border-b">{{ student.admin.id }}</td>
+                                    <td class="py-2 px-4 border-b">{{ student.admin.first_name }}</td>
+                                    <td class="py-2 px-4 border-b">{{ student.admin.last_name }}</td>
+                                    <td class="py-2 px-4 border-b">{{ student.admin.username }}</td>
+                                    <td class="py-2 px-4 border-b">{{ student.admin.email }}</td>
+                                    <td class="py-2 px-4 border-b">{{ student.address }}</td>
+                                    <td class="py-2 px-4 border-b">{{ student.gender }}</td>
+                                    <td class="py-2 px-4 border-b">
+                                        <img src="{{ student.profile_pic }}" class="w-[60px] h-[60px] object-cover rounded-full" alt="Profile Pic" />
+                                    </td>
+                                    <td class="py-2 px-4 border-b">{{ student.session_year_id.session_start_year }}</td>
+                                    <td class="py-2 px-4 border-b">{{ student.session_year_id.session_end_year }}</td>
+                                    <td class="py-2 px-4 border-b">{{ student.course_id.course_name }}</td>
+                                    <td class="py-2 px-4 border-b">{{ student.admin.last_login }}</td>
+                                    <td class="py-2 px-4 border-b">{{ student.admin.date_joined }}</td>
+                                    <td class="py-2 px-4 border-b">
+                                        <a href="{% url 'edit_student' student.admin.id %}" class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">Edit</a> 
+                                        <a href="{% url 'delete_student' student.admin.id %}" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</a>
+                                    </td>
+                                </tr>
+                                
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.container-fluid -->
+    </section>
+
+{% endblock main_content %}

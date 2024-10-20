@@ -1,0 +1,84 @@
+{% extends 'student_template/base_template.html' %}
+
+{% block page_title %}
+    View Attendance Data
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+
+<section class="p-6 bg-gray-100">
+    <div class="container mx-auto">
+
+        <div class="max-w-2xl mx-auto">
+            <!-- Attendance View Form -->
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <h3 class="text-xl font-bold mb-4">View Attendance</h3>
+
+                {% comment %} Display Messages {% endcomment %}
+                {% if messages %}
+                <div class="mb-4">
+                    {% for message in messages %}
+                    {% if message.tags == "error" %}
+                    <div class="bg-red-200 text-red-700 border border-red-500 rounded px-4 py-2 mb-2" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% elif message.tags == "success" %}
+                    <div class="bg-green-200 text-green-700 border border-green-500 rounded px-4 py-2 mb-2" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <form method="POST" action="{% url 'student_view_attendance_post' %}">
+                    {% csrf_token %}
+
+                    <div class="mb-4">
+                        <label class="block text-gray-700">Subject</label>
+                        <select class="form-control mt-1 block w-full p-2 border border-gray-300 rounded" name="subject" id="subject">
+                            {% for subject in subjects %}
+                            <option value="{{ subject.id }}">{{ subject.subject_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-gray-700">Start Date</label>
+                            <input type="date" class="form-control mt-1 block w-full p-2 border border-gray-300 rounded" name="start_date" />
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700">End Date</label>
+                            <input type="date" class="form-control mt-1 block w-full p-2 border border-gray-300 rounded" name="end_date" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" id="fetch_student">Fetch Attendance</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.Attendance View Form -->
+
+            {% comment %} Displaying Students Here {% endcomment %}
+            <div class="mt-4" id="student_data">
+                <!-- Student data will be displayed here -->
+            </div>
+        </div>
+    </div><!-- /.container -->
+</section>
+
+{% block custom_js %}
+{% endblock custom_js %}
+
+{% endblock main_content %}

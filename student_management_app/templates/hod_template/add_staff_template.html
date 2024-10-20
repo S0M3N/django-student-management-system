@@ -1,0 +1,143 @@
+{% extends 'hod_template/base_template.html' %}
+
+{% block page_title %}
+    Add Staff
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+
+<section class="content bg-gray-100 py-6">
+    <div class="container mx-auto">
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="bg-white shadow-lg rounded-lg p-6">
+                    <div class="mb-4">
+                        <h3 class="text-xl font-semibold text-gray-800">Add Staff</h3>
+                    </div>
+
+                    <!-- form start -->
+                    <form method="POST" action="{% url 'add_staff_save' %}">
+                        {% csrf_token %}
+
+                        {% comment %} Display Messages {% endcomment %}
+                        {% if messages %}
+                        <div class="mb-4">
+                            {% for message in messages %}
+                                {% if message.tags == "error" %}
+                                    <div class="bg-red-500 text-white p-4 rounded-lg mb-2">
+                                        {{ message }}
+                                        <button type="button" class="close text-white hover:text-gray-300" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                {% elif message.tags == "success" %}
+                                    <div class="bg-green-500 text-white p-4 rounded-lg mb-2">
+                                        {{ message }}
+                                        <button type="button" class="close text-white hover:text-gray-300" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <div class="mb-4">
+                            <label class="block text-gray-700 font-medium mb-1" for="id_email">Email Address</label>
+                            <input type="email" id="id_email" name="email" placeholder="Enter email" class="form-control w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-gray-700 font-medium mb-1" for="id_username">Username</label>
+                            <input type="text" id="id_username" name="username" placeholder="Username" class="form-control w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-gray-700 font-medium mb-1" for="id_password">Password</label>
+                            <input type="password" name="password" placeholder="Password" class="form-control w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-gray-700 font-medium mb-1" for="id_first_name">First Name</label>
+                            <input type="text" name="first_name" placeholder="First Name" class="form-control w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-gray-700 font-medium mb-1" for="id_last_name">Last Name</label>
+                            <input type="text" name="last_name" placeholder="Last Name" class="form-control w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-gray-700 font-medium mb-1" for="id_address">Address</label>
+                            <textarea name="address" placeholder="Address" class="form-control w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-500 transition duration-200 ease-in-out">Add Staff</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+
+    </div><!-- /.container-fluid -->
+</section>
+
+{% endblock main_content %}
+
+{% block custom_js %}
+<script>
+    $(document).ready(function(){
+        // Check if email already exists using Ajax
+        $("#id_email").keyup(function(){
+            var email = $(this).val();
+
+            if(email != ""){
+                $.ajax({
+                    url : '{% url 'check_email_exist' %}',
+                    type : 'POST',
+                    data : {email: email}
+                })
+                .done(function(response){
+                    $(".email_error").remove();
+                    $("<span class='email_error' style='color: " + (response == "True" ? "red" : "green") + "; padding: 5px; font-weight: bold;'>" + (response == "True" ? "Email Not Available." : "Email Available.") + "</span>").insertAfter("#id_email");
+                })
+                .fail(function(){
+                    console.log("Failed");
+                });
+            }
+            else {
+                $(".email_error").remove();
+            }
+        });
+
+        // Check if username already exists using Ajax
+        $("#id_username").keyup(function(){
+            var username = $(this).val();
+
+            if(username != ""){
+                $.ajax({
+                    url : '{% url 'check_username_exist' %}',
+                    type : 'POST',
+                    data : {username: username}
+                })
+                .done(function(response){
+                    $(".username_error").remove();
+                    $("<span class='username_error' style='color: " + (response == "True" ? "red" : "green") + "; padding: 5px; font-weight: bold;'>" + (response == "True" ? "Username Not Available." : "Username Available.") + "</span>").insertAfter("#id_username");
+                })
+                .fail(function(){
+                    console.log("Failed");
+                });
+            }
+            else {
+                $(".username_error").remove();
+            }
+        });
+    });
+</script>
+{% endblock custom_js %}

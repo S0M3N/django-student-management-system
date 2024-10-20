@@ -1,0 +1,85 @@
+{% extends 'hod_template/base_template.html' %}
+
+{% block page_title %}
+    Staff Feedback
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+
+<section class="content">
+    <div class="container mx-auto px-4">
+
+        <div class="flex flex-col">
+            <div class="w-full">
+                <!-- General form elements -->
+                <div class="bg-white shadow-md rounded-lg">
+                    <div class="p-4 border-b">
+                        <h3 class="text-xl font-semibold">Staff Feedback</h3>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead>
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Staff ID</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Staff Name</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Message</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sent On</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reply</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                {% for feedback in feedbacks %}
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ feedback.id }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ feedback.staff_id.admin.id }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ feedback.staff_id.admin.first_name }} {{ feedback.staff_id.admin.last_name }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ feedback.feedback }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ feedback.created_at }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        {% if feedback.feedback_reply == "" %}
+                                            <button class="bg-green-500 text-white font-semibold py-2 px-4 rounded hover:bg-green-600 transition duration-300 reply_open_modal" data-toggle="modal" data-target="#replyModal">Reply</button>
+                                        {% else %}
+                                            {{ feedback.feedback_reply }}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+
+    </div><!-- /.container -->
+</section>
+
+{% comment %} Modal to Reply Feedback {% endcomment %}
+<!-- Modal -->
+<div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-lg font-semibold" id="exampleModalLabel">Reply Feedback</h5>
+                <button type="button" class="text-gray-500 hover:text-gray-700" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="mb-2">Reply to: <b><span id="reply_name" class="font-semibold"></span></b></p>
+                <input type="hidden" id="reply_id" name="reply_id" />
+                <textarea class="form-control p-2 mt-2 block w-full border-gray-300 rounded-md focus:border-blue-500 focus:ring focus:ring-blue-200 transition duration-150" rows="5" id="reply_message" placeholder="Type your reply here..."></textarea>
+            </div>
+            <div class="modal-footer my-2">
+                <button type="button" class="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 transition duration-300" id="reply_button">Reply</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock main_content %}

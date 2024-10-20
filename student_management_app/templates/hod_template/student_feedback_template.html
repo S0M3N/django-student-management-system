@@ -1,0 +1,133 @@
+{% extends 'hod_template/base_template.html' %}
+
+{% block page_title %}
+    Student Feedback
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+
+<section class="content">
+    <div class="container mx-auto px-4">
+
+        <div class="flex flex-col">
+            <div class="w-full">
+                <!-- General form elements -->
+                <div class="bg-white shadow-md rounded-lg">
+                    <div class="p-4 border-b">
+                        <h3 class="text-xl font-semibold">Student Feedback</h3>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student ID</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student Name</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student Session</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Message</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sent On</th>
+                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reply</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                {% for feedback in feedbacks %}
+                                <tr>
+                                    <td class="px-4 py-2 whitespace-nowrap">{{ feedback.id }}</td>
+                                    <td class="px-4 py-2 whitespace-nowrap">{{ feedback.student_id.admin.id }}</td>
+                                    <td class="px-4 py-2 whitespace-nowrap">{{ feedback.student_id.admin.first_name }} {{ feedback.student_id.admin.last_name }}</td>
+                                    <td class="px-4 py-2 whitespace-nowrap">{{ feedback.student_id.session_year_id.session_start_year }} - {{ feedback.student_id.session_year_id.session_end_year }}</td>
+                                    <td class="px-4 py-2 whitespace-nowrap">{{ feedback.feedback }}</td>
+                                    <td class="px-4 py-2 whitespace-nowrap">{{ feedback.created_at }}</td>
+                                    <td class="px-4 py-2 whitespace-nowrap">
+                                        {% if feedback.feedback_reply == "" %}
+                                            <button class="bg-green-500 text-white font-semibold py-2 px-4 rounded hover:bg-green-600 transition duration-300 reply_open_modal" data-toggle="modal" data-target="#replyModal">Reply</button>
+                                        {% else %}
+                                            <span class="text-gray-600">{{ feedback.feedback_reply }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+
+    </div><!-- /.container-fluid -->
+</section>
+
+{% comment %} Modal to Reply Feedback {% endcomment %}
+<!-- Modal -->
+<div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Reply Feedback</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Reply to: <b><span id="reply_name"></span></b></p>
+                <input type="hidden" id="reply_id" name="reply_id" />
+                <textarea class="form-control border rounded-md p-2" rows="5" id="reply_message"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-block" id="reply_button">Reply</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock main_content %}
+
+{% comment %} Custom JS to Identify the Reply and Post Reply {% endcomment %}
+
+{% block custom_js %}
+<script>
+    $(document).ready(function(){
+        $(".reply_open_modal").click(function(){
+            // Getting Value from Table
+            var id = $(this).parents("tr").children("td:eq(0)").text(); // Getting Selected Row ID (First Column)
+            var name = $(this).parents("tr").children("td:eq(2)").text(); // Getting Selected Name (3rd Column)
+            
+            // Adding the Value from Table to Modal form
+            $("#reply_id").val(id);
+            $("#reply_name").text(name);
+        });
+
+        $(document).on("click", "#reply_button", function(){
+            // Disabling the Button while data is being saved in Server
+            $(this).attr("disabled", "disabled");
+            $(this).text("Sending Reply...");
+
+            var id = $("#reply_id").val();
+            var reply = $("#reply_message").val();
+
+            // Saving Feedback Reply into Database
+            $.ajax({
+                url: '{% url 'student_feedback_message_reply' %}',
+                type: 'POST',
+                data: {id: id, reply: reply},
+            })
+            .done(function(response){
+                if(response == "True") {
+                    alert("Reply Sent!");
+                } else {
+                    alert("Failed to Send Reply!");
+                }
+                location.reload();
+            })
+            .fail(function(){
+                alert("Error in Sending Feedback Reply.");
+            });
+        });
+    });
+</script>
+{% endblock custom_js %}

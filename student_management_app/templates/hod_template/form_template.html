@@ -1,0 +1,50 @@
+<form role="form" method="POST" action="{{ action_path }}" enctype="multipart/form-data" class="w-full max-w-2xl p-8 bg-white rounded-lg shadow-lg mx-auto">
+    {% csrf_token %}
+
+    {% comment %} Display Messages {% endcomment %}
+    {% if messages %}
+    <div class="mb-4">
+        {% for message in messages %}
+            <div class="bg-red-600 text-white p-4 rounded-lg mb-2 shadow {% if message.tags != 'error' %}hidden{% endif %}">
+                {{ message }}
+                <button type="button" class="close text-white hover:text-gray-300" onclick="this.parentElement.style.display='none';" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="bg-green-600 text-white p-4 rounded-lg mb-2 shadow {% if message.tags != 'success' %}hidden{% endif %}">
+                {{ message }}
+                <button type="button" class="close text-white hover:text-gray-300" onclick="this.parentElement.style.display='none';" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="space-y-6">
+        {% comment %} Adding Form with All inputs Here {% endcomment %}
+        {% for field in form %}
+        <div class="form-group">
+            {{ field.errors }}
+            <label class="block text-gray-700 text-sm font-medium mb-1">{{ field.label }}</label>
+            {% if field.field.widget.input_type == 'text' or field.field.widget.input_type == 'email' or field.field.widget.input_type == 'password' %}
+                <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}" value="{{ field.value|default_if_none:'' }}" class="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out" placeholder="{{ field.label }}">
+            {% elif field.field.widget.input_type == 'file' %}
+                <input type="file" name="{{ field.name }}" class="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out">
+            {% elif field.field.widget.input_type == 'select' %}
+                <select name="{{ field.name }}" class="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out">
+                    {% for option in field.field.choices %}
+                        <option value="{{ option.0 }}" {% if option.0 == field.value %}selected{% endif %}>{{ option.1 }}</option>
+                    {% endfor %}
+                </select>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="mt-6">
+        <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200 ease-in-out">
+            {{ button_text }}
+        </button>
+    </div>
+</form>

@@ -1,0 +1,77 @@
+{% extends 'hod_template/base_template.html' %}
+
+{% block page_title %}
+    Edit Subject | #ID : {{ subject.id }}
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+
+<section class="py-8">
+    <div class="container mx-auto">
+        <div class="flex justify-center">
+            <div class="w-full max-w-2xl">
+                <!-- general form elements -->
+                <div class="bg-white shadow-md rounded-lg p-6">
+                    <div class="mb-4">
+                        <h3 class="text-xl font-semibold">Edit Subject</h3>
+                    </div>
+                    <!-- form start -->
+                    <form role="form" method="POST" action="{% url 'edit_subject_save' %}">
+                        {% csrf_token %}
+
+                        {% comment %} Display Messages {% endcomment %}
+                        {% if messages %}
+                        <div class="mb-4">
+                            <div>
+                                {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-2" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2">Subject Name</label>
+                            <input type="text" class="form-control border rounded-lg p-2 w-full" name="subject" value="{{ subject.subject_name }}" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2">Course</label>
+                            <select class="form-control border rounded-lg p-2 w-full" name="course" required>
+                                {% for course in courses %}
+                                    <option value="{{ course.id }}" {% if course.id == subject.course_id.id %} selected {% endif %}>{{ course.course_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2">Staff</label>
+                            <select class="form-control border rounded-lg p-2 w-full" name="staff" required>
+                                {% for staff in staffs %}
+                                    <option value="{{ staff.id }}" {% if staff.id == subject.staff_id.id %} selected {% endif %}>{{ staff.first_name }} {{ staff.last_name }}</option>
+                                {% endfor %}
+                            </select>
+                            <input type="hidden" name="subject_id" value="{{ subject.id }}" />
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button type="submit" class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                Update Subject
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+{% endblock main_content %}

@@ -1,0 +1,89 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Student Management System | Staff Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+  {% comment %} For Custom CSS {% endcomment %}
+  {% block custom_css %}
+  {% endblock custom_css %}
+</head>
+
+<body class="bg-gray-100 hold-transition sidebar-mini layout-fixed">
+  <div class="flex flex-col min-h-screen">
+
+    <!-- Main Sidebar Container -->
+    {% include 'staff_template/sidebar_template.html' with user=user id=id %}
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="flex items-center  justify-center">
+      <!-- Main content -->
+      {% block main_content %}
+      {% endblock main_content %}
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    {% include 'staff_template/footer.html' %}
+    
+  </div>
+  <!-- ./wrapper -->
+
+  <!-- jQuery -->
+  <script src="{% static "jquery/jquery.min.js" %}"></script>
+  <!-- jQuery UI 1.11.4 -->
+  <script src="{% static "jquery-ui/jquery-ui.min.js" %}"></script>
+  <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+  <script>
+    $.widget.bridge('uibutton', $.ui.button);
+  </script>
+  <!-- Bootstrap 4 -->
+  <script src="{% static "bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+  <!-- ChartJS -->
+  <script src="{% static "chart.js/Chart.min.js" %}"></script>
+  <!-- Sparkline -->
+  <script src="{% static "sparklines/sparkline.js" %}"></script>
+  <!-- JQVMap -->
+  <script src="{% static "jqvmap/jquery.vmap.min.js" %}"></script>
+  <script src="{% static "jqvmap/maps/jquery.vmap.usa.js" %}"></script>
+  <!-- jQuery Knob Chart -->
+  <script src="{% static "jquery-knob/jquery.knob.min.js" %}"></script>
+  <!-- daterangepicker -->
+  <script src="{% static "moment/moment.min.js" %}"></script>
+  <script src="{% static "daterangepicker/daterangepicker.js" %}"></script>
+  <!-- Tempusdominus Bootstrap 4 -->
+  <script src="{% static "tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js" %}"></script>
+  <!-- Summernote -->
+  <script src="{% static "summernote/summernote-bs4.min.js" %}"></script>
+  <!-- overlayScrollbars -->
+  <script src="{% static "overlayScrollbars/js/jquery.overlayScrollbars.min.js" %}"></script>
+  <!-- AdminLTE App -->
+  <script src="{% static 'dist/js/adminlte.js' %}"></script>
+  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+  <script src="{% static 'dist/js/pages/dashboard.js' %}"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="{% static 'dist/js/demo.js' %}"></script>
+
+  {% comment %} For Custom JS {% endcomment %}
+  {% block custom_js %}
+  {% endblock custom_js %}
+
+  <!-- Tailwind JS for dropdown (if needed) -->
+  <script>
+    document.querySelectorAll('[data-toggle="dropdown"]').forEach(button => {
+      button.addEventListener('click', () => {
+        const dropdown = button.nextElementSibling;
+        dropdown.classList.toggle('hidden');
+      });
+    });
+  </script>
+
+</body>
+</html>

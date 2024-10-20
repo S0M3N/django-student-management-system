@@ -1,0 +1,91 @@
+{% extends 'staff_template/base_template.html' %}
+
+{% block page_title %}
+    Feedback Message
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+
+<section class="p-6 bg-gray-100">
+    <div class="container mx-auto">
+
+        <div class="mb-6">
+            <!-- Feedback Message Form -->
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <div class="mb-4">
+                    <h3 class="text-xl font-semibold text-gray-700">Leave a Feedback Message</h3>
+                </div>
+
+                <!-- Display Messages -->
+                {% if messages %}
+                <div class="mb-4">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} rounded p-4 mb-2 text-sm">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <form method="POST" action="{% url 'staff_feedback_save' %}">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label class="block text-gray-700" for="feedback_message">Feedback Message</label>
+                        <textarea name="feedback_message" class="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm focus:ring focus:ring-indigo-200" rows="6" placeholder="Feedback Message" required></textarea>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200">Leave a Feedback</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.Feedback Message Form -->
+        </div>
+
+        <div>
+            <!-- Feedback History -->
+            <div class="bg-white shadow-md rounded-lg">
+                <div class="p-4">
+                    <h3 class="text-xl font-semibold text-gray-700">Feedback History</h3>
+                </div>
+
+                <div class="p-4">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full border-collapse border border-gray-300">
+                            <thead class="bg-gray-200">
+                                <tr>
+                                    <th class="border border-gray-300 p-2">#ID</th>
+                                    <th class="border border-gray-300 p-2">Feedback Message</th>
+                                    <th class="border border-gray-300 p-2">Feedback Reply</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in feedback_data %}
+                                <tr class="border-b border-gray-300">
+                                    <td class="border border-gray-300 p-2">{{ row.id }}</td>
+                                    <td class="border border-gray-300 p-2">{{ row.feedback }}</td>
+                                    <td class="border border-gray-300 p-2">{{ row.feedback_reply }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <!-- /.Feedback History -->
+        </div>
+
+    </div><!-- /.container -->
+</section>
+
+{% endblock main_content %}
+
+{% block custom_js %}
+
+{% endblock custom_js %}

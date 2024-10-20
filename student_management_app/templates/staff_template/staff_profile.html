@@ -1,0 +1,98 @@
+{% extends 'staff_template/base_template.html' %}
+
+{% block page_title %}
+    Update Profile
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+
+<section class="content">
+    <div class="container mx-auto px-4">
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="bg-white shadow-md rounded-lg p-6">
+                    <div class="mb-4">
+                        <h3 class="text-xl font-semibold">Update Profile</h3>
+                    </div>
+                    <!-- form start -->
+                    <form method="POST" action="{% url 'staff_profile_update' %}">
+                        {% csrf_token %}
+
+                        {% comment %} Display Messages {% endcomment %}
+                        {% if messages %}
+                        <div class="mb-4">
+                            <div class="col-12">
+                                {% for message in messages %}
+                                {% if message.tags == "error" %}
+                                    <div class="bg-red-100 text-red-800 border border-red-300 rounded-lg px-4 py-3 mb-3" role="alert">
+                                        {{ message }}
+                                        <button type="button" class="close" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                {% elif message.tags == "success" %}
+                                    <div class="bg-green-100 text-green-800 border border-green-300 rounded-lg px-4 py-3 mb-3" role="alert">
+                                        {{ message }}
+                                        <button type="button" class="close" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Username</label>
+                                <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" name="username" value="{{ user.username }}" disabled="disabled">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Email</label>
+                                <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" name="email" value="{{ user.email }}" disabled="disabled">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">First Name</label>
+                                <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" name="first_name" value="{{ user.first_name }}">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Last Name</label>
+                                <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" name="last_name" value="{{ user.last_name }}">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Address</label>
+                                <textarea name="address" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" rows="5">{{ staff.address }}</textarea>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Password</label>
+                                <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" name="password" placeholder="Fill only if you want to change Password.">
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+
+                        <div class="mt-6">
+                            <button type="submit" class="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
+                                Update Profile
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.card -->
+
+            </div>
+        </div>
+
+    </div><!-- /.container-fluid -->
+</section>
+
+{% endblock main_content %}

@@ -1,0 +1,78 @@
+{% extends 'hod_template/base_template.html' %}
+
+{% block page_title %}
+    Add Subject
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+
+<section class="py-8">
+    <div class="container mx-auto">
+        <div class="flex justify-center">
+            <div class="w-full max-w-lg">
+                <!-- general form elements -->
+                <div class="bg-white shadow-md rounded-lg p-6">
+                    <div class="mb-4">
+                        <h3 class="text-xl font-semibold">Add Subject</h3>
+                    </div>
+                    <!-- form start -->
+                    <form role="form" method="POST" action="{% url 'add_subject_save' %}">
+                        {% csrf_token %}
+
+                        {% comment %} Display Messages {% endcomment %}
+                        {% if messages %}
+                        <div class="mb-4">
+                            <div>
+                                {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-2" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <div class="mb-4">
+                            <label for="subject" class="block text-sm font-medium text-gray-700">Subject Name</label>
+                            <input type="text" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200" name="subject" id="subject" placeholder="Enter Subject" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="course" class="block text-sm font-medium text-gray-700">Course</label>
+                            <select class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200" name="course" id="course" required>
+                                <option value="" disabled selected>Select a Course</option>
+                                {% for course in courses %}
+                                    <option value="{{ course.id }}">{{ course.course_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="staff" class="block text-sm font-medium text-gray-700">Staff</label>
+                            <select class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200" name="staff" id="staff" required>
+                                <option value="" disabled selected>Select a Staff Member</option>
+                                {% for staff in staffs %}
+                                    <option value="{{ staff.id }}">{{ staff.first_name }} {{ staff.last_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                Add Subject
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+
+{% endblock main_content %}

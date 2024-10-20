@@ -1,0 +1,159 @@
+{% load static %}
+
+<aside class="w-64 bg-gray-800 text-white h-screen fixed">
+  <!-- Brand Logo -->
+  <a href="{% url 'admin_home' %}" class="flex items-center p-4 bg-gray-900">
+    <span class="ml-3 text-lg font-light">Haridwar University</span>
+  </a>
+
+  <!-- Sidebar -->
+  <div class="p-4">
+    <!-- Sidebar user panel (optional) -->
+    <div class="flex items-center mb-4">
+      <div class="ml-3">
+        <a href="{% url 'admin_profile' %}" class="block text-white">{{ user.first_name }} {{ user.last_name }}</a>
+      </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <nav>
+      <ul class="space-y-2">
+        <li>
+          <a href="{% url 'admin_home' %}"
+            class="flex items-center p-2 rounded hover:bg-gray-700 {% if request.path == admin_home %} bg-gray-700 {% endif %}">
+            <i class="fas fa-tachometer-alt"></i>
+            <span class="ml-3">Home</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'manage_staff' %}"
+            class="flex items-center p-2 rounded hover:bg-gray-700 {% if request.path == manage_staff or request.path == edit_staff %} bg-gray-700 {% endif %}">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <span class="ml-3">Manage Staff</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'add_staff' %}"
+            class="flex items-center p-2 rounded hover:bg-gray-700 {% if request.path == add_staff %} bg-gray-700 {% endif %}">
+            <i class="fas fa-plus"></i>
+            <span class="ml-3">Add Staff</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'manage_student' %}"
+            class="flex items-center p-2 rounded hover:bg-gray-700 {% if request.path == manage_student or request.path == edit_student %} bg-gray-700 {% endif %}">
+            <i class="fas fa-user-graduate"></i>
+            <span class="ml-3">Manage Student</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'add_student' %}"
+            class="flex items-center p-2 rounded hover:bg-gray-700 {% if request.path == add_student %} bg-gray-700 {% endif %}">
+            <i class="fas fa-plus"></i>
+            <span class="ml-3">Add Student</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'manage_course' %}"
+            class="flex items-center p-2 rounded hover:bg-gray-700 {% if request.path == manage_course or request.path == edit_course %} bg-gray-700 {% endif %}">
+            <i class="fas fa-chalkboard"></i>
+            <span class="ml-3">Manage Course</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'add_course' %}"
+            class="flex items-center p-2 rounded hover:bg-gray-700 {% if request.path == add_course %} bg-gray-700 {% endif %}">
+            <i class="fas fa-plus"></i>
+            <span class="ml-3">Add Course</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'manage_subject' %}"
+            class="flex items-center p-2 rounded hover:bg-gray-700 {% if request.path == manage_subject or request.path == edit_subject %} bg-gray-700 {% endif %}">
+            <i class="fas fa-book"></i>
+            <span class="ml-3">Manage Subject</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'add_subject' %}"
+            class="flex items-center p-2 rounded hover:bg-gray-700 {% if request.path == add_subject %} bg-gray-700 {% endif %}">
+            <i class="fas fa-plus"></i>
+            <span class="ml-3">Add Subject</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'manage_session' %}"
+            class="flex items-center p-2 rounded hover:bg-gray-700 {% if request.path == manage_session or request.path == edit_session %} bg-gray-700 {% endif %}">
+            <i class="fas fa-graduation-cap"></i>
+            <span class="ml-3">Manage Session</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'add_session' %}"
+            class="flex items-center p-2 rounded hover:bg-gray-700 {% if request.path == add_session %} bg-gray-700 {% endif %}">
+            <i class="fas fa-plus"></i>
+            <span class="ml-3">Add Session</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'admin_view_attendance' %}"
+            class="flex items-center p-2 rounded hover:bg-gray-700 {% if request.path == admin_view_attendance %} bg-gray-700 {% endif %}">
+            <i class="fas fa-calendar-alt"></i>
+            <span class="ml-3">View Attendance</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'student_feedback_message' %}"
+            class="flex items-center p-2 rounded hover:bg-gray-700 {% if request.path == student_feedback_message %} bg-gray-700 {% endif %}">
+            <i class="fas fa-comment"></i>
+            <span class="ml-3">Student Feedback</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'staff_feedback_message' %}"
+            class="flex items-center p-2 rounded hover:bg-gray-700 {% if request.path == staff_feedback_message %} bg-gray-700 {% endif %}">
+            <i class="fas fa-comment"></i>
+            <span class="ml-3">Staff Feedback</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'student_leave_view' %}"
+            class="flex items-center p-2 rounded hover:bg-gray-700 {% if request.path == student_leave_view %} bg-gray-700 {% endif %}">
+            <i class="fas fa-user-clock"></i>
+            <span class="ml-3">Student Leave</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{% url 'staff_leave_view' %}"
+            class="flex items-center p-2 rounded hover:bg-gray-700 {% if request.path == staff_leave_view %} bg-gray-700 {% endif %}">
+            <i class="fas fa-user-clock"></i>
+            <span class="ml-3">Staff Leave</span>
+          </a>
+        </li>
+        <a href="{% url 'admin_profile' %}" class="block px-4 py-2 text-white hover:bg-gray-100">
+          <i class="fas fa-user-edit mr-2"></i> Update Profile
+        </a>
+        <div class="border-t"></div>
+        <a href="{% url 'logout_user' %}" class="block px-4 py-2 text-white hover:bg-gray-100">
+          <i class="fas fa-power-off mr-2"></i> Logout
+        </a>
+
+      </ul>
+    </nav>
+  </div>
+</aside>

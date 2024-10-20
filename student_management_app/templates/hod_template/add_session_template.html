@@ -1,0 +1,71 @@
+{% extends 'hod_template/base_template.html' %}
+
+{% block page_title %}
+    Add Session Year
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+
+<section class="content bg-gray-100 py-6">
+    <div class="container mx-auto">
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="bg-white shadow-lg rounded-lg p-6">
+                    <div class="mb-4">
+                        <h3 class="text-xl font-semibold text-gray-800">Add Session Year</h3>
+                    </div>
+
+                    <!-- form start -->
+                    <form method="POST" action="{% url 'add_session_save' %}">
+                        {% csrf_token %}
+
+                        {% comment %} Display Messages {% endcomment %}
+                        {% if messages %}
+                        <div class="mb-4">
+                            {% for message in messages %}
+                                {% if message.tags == "error" %}
+                                    <div class="bg-red-500 text-white p-4 rounded-lg mb-2">
+                                        {{ message }}
+                                        <button type="button" class="close text-white hover:text-gray-300" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                {% elif message.tags == "success" %}
+                                    <div class="bg-green-500 text-white p-4 rounded-lg mb-2">
+                                        {{ message }}
+                                        <button type="button" class="close text-white hover:text-gray-300" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <div class="mb-4">
+                            <label class="block text-gray-700 font-medium mb-1" for="session_start_year">Session Start Year</label>
+                            <input type="date" id="session_start_year" name="session_start_year" class="form-control w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="block text-gray-700 font-medium mb-1" for="session_end_year">Session End Year</label>
+                            <input type="date" id="session_end_year" name="session_end_year" class="form-control w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-500 transition duration-200 ease-in-out">Add Session Year</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+
+    </div><!-- /.container-fluid -->
+</section>
+
+{% endblock main_content %}

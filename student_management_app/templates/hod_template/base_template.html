@@ -1,0 +1,91 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System | Dashboard</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+0i5T6b5Tr5QEpH41kMw5abQ4eeFln5s5FtJo1" crossorigin="anonymous">
+    
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    {% comment %} Custom CSS Block {% endcomment %}
+    {% block custom_css %}
+    {% endblock custom_css %}
+</head>
+
+<body class="bg-gray-100">
+
+    <div class="min-h-screen flex flex-col">
+
+        <!-- Sidebar and Main Content -->
+        <div class="flex flex-grow">
+            {% include 'hod_template/sidebar_template.html' with user=user id=id %}
+        
+            <!-- Content Wrapper -->
+            <div class="w-full p-4">
+                <!-- Page Title -->
+                <div class="mb-6">
+                    <h1 class="text-2xl font-semibold text-gray-800">
+                        {% block page_title %}
+                        {% endblock page_title %}
+                    </h1>
+                </div>
+
+                <!-- Main Content -->
+                <div class="ml-[280px]">
+                    {% block main_content %}
+                    {% endblock main_content %}
+                </div>
+            </div>
+        </div>
+        <!-- End Content Wrapper -->
+
+        <!-- Footer -->
+        {% include 'hod_template/footer.html' %}
+
+    </div>
+
+    <!-- Vanilla JS Script -->
+    <script>
+        // Sidebar toggle
+        document.getElementById('menu-toggle').addEventListener('click', function () {
+            const sidebar = document.querySelector('nav.sidebar');
+            if (sidebar) {
+                sidebar.classList.toggle('hidden');
+            }
+        });
+
+        // Dropdown toggle
+        const dropdownToggle = document.getElementById('dropdown-toggle');
+        const dropdownMenu = document.getElementById('dropdown-menu');
+
+        dropdownToggle.addEventListener('click', function () {
+            dropdownMenu.classList.toggle('hidden');
+        });
+
+        // Hide dropdown if clicked outside
+        window.addEventListener('click', function (e) {
+            if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.add('hidden');
+            }
+        });
+    </script>
+
+    {% comment %} Custom JS Block {% endcomment %}
+    {% block custom_js %}
+    {% endblock custom_js %}
+
+</body>
+</html>

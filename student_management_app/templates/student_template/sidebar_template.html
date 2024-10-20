@@ -1,0 +1,89 @@
+{% load static %}
+
+<aside class="bg-gray-800 text-white w-64 h-screen fixed">
+  <!-- Brand Logo -->
+  <a href="{% url 'student_home' %}" class="flex items-center p-4">
+    <span class="ml-2 text-lg font-light">Haridwar University</span>
+  </a>
+
+  <!-- Sidebar -->
+  <div class="px-4 mt-3 flex flex-col items-start justify-between h-4/5">
+    <div class="flex flex-col items-start space-y-4">
+      <!-- Sidebar user panel (optional) -->
+      <div class="flex items-center mt-3 mb-5">
+        <div class="ml-3">
+          <a href="{% url 'student_profile' %}" class="font-medium text-base hover:text-gray-300">{{ user.first_name }}
+            {{ user.last_name }}</a>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="space-y-2">
+          <!-- Home -->
+          <li>
+            {% url 'student_home' as student_home %}
+            <a href="{{ student_home }}"
+              class="flex items-center p-2 rounded-lg hover:bg-gray-700 {% if request.path == student_home %} bg-gray-700 {% endif %}">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <span class="ml-3">Home</span>
+            </a>
+          </li>
+
+          <!-- View Attendance -->
+          <li>
+            {% url 'student_view_attendance' as student_view_attendance %}
+            <a href="{{ student_view_attendance }}"
+              class="flex items-center p-2 rounded-lg hover:bg-gray-700 {% if request.path == student_view_attendance %} bg-gray-700 {% endif %}">
+              <i class="nav-icon fas fa-calendar-alt"></i>
+              <span class="ml-3">View Attendance</span>
+            </a>
+          </li>
+
+          <!-- View Result -->
+          <li>
+            {% url 'student_view_result' as student_view_result %}
+            <a href="{{ student_view_result }}"
+              class="flex items-center p-2 rounded-lg hover:bg-gray-700 {% if request.path == student_view_result %} bg-gray-700 {% endif %}">
+              <i class="nav-icon fas fa-tasks"></i>
+              <span class="ml-3">View Result</span>
+            </a>
+          </li>
+
+          <!-- Apply for Leave -->
+          <li>
+            {% url 'student_apply_leave' as student_apply_leave %}
+            <a href="{{ student_apply_leave }}"
+              class="flex items-center p-2 rounded-lg hover:bg-gray-700 {% if request.path == student_apply_leave %} bg-gray-700 {% endif %}">
+              <i class="nav-icon fas fa-envelope-open-text"></i>
+              <span class="ml-3">Apply for Leave</span>
+            </a>
+          </li>
+
+          <!-- Send Feedback -->
+          <li>
+            {% url 'student_feedback' as student_feedback %}
+            <a href="{{ student_feedback }}"
+              class="flex items-center p-2 rounded-lg hover:bg-gray-700 {% if request.path == student_feedback %} bg-gray-700 {% endif %}">
+              <i class="nav-icon fas fa-comments"></i>
+              <span class="ml-3">Send Feedback</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+    </div>
+    <!-- Additional Links -->
+    <div class="">
+      <a href="{% url 'student_profile' %}" class="flex items-center p-2 rounded hover:bg-gray-700">
+        <i class="fas fa-user-edit mr-2"></i> Update Profile
+      </a>
+      <a href="{% url 'logout_user' %}" class="flex items-center p-2 rounded hover:bg-gray-700">
+        <i class="fas fa-power-off mr-2"></i> Logout
+      </a>
+    </div>
+
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>

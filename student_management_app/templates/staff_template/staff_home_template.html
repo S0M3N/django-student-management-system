@@ -1,0 +1,208 @@
+{% extends 'staff_template/base_template.html' %}
+
+{% block page_title %}
+    Staff Home
+{% endblock page_title %}
+
+{% block main_content %}
+{% load static %}
+
+<section class="p-6 bg-gray-100">
+    <div class="container mx-auto">
+
+        <!-- Boxes Section Starts -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-gray-200 p-5 rounded-lg shadow-lg">
+                <div class="flex justify-between items-center">
+                    <div class="text-gray-800">
+                        <h3 class="text-2xl font-bold">{{ students_count }}</h3>
+                        <p>Students Under Me</p>
+                    </div>
+                    <i class="fas fa-user-graduate text-gray-800 text-4xl"></i>
+                </div>
+                <a href="{% url 'staff_take_attendance' %}" class="text-gray-800 underline">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+            
+            <div class="bg-gray-200 p-5 rounded-lg shadow-lg">
+                <div class="flex justify-between items-center">
+                    <div class="text-gray-800">
+                        <h3 class="text-2xl font-bold">{{ attendance_count }}</h3>
+                        <p>Total Attendance Taken</p>
+                    </div>
+                    <i class="fas fa-check-circle text-gray-800 text-4xl"></i>
+                </div>
+                <a href="{% url 'staff_take_attendance' %}" class="text-gray-800 underline">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+
+            <div class="bg-gray-200 p-5 rounded-lg shadow-lg">
+                <div class="flex justify-between items-center">
+                    <div class="text-gray-800">
+                        <h3 class="text-2xl font-bold">{{ leave_count }}</h3>
+                        <p>Total Leave Taken</p>
+                    </div>
+                    <i class="fas fa-plane-slash text-gray-800 text-4xl"></i>
+                </div>
+                <a href="{% url 'staff_apply_leave' %}" class="text-gray-800 underline">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+
+            <div class="bg-gray-200 p-5 rounded-lg shadow-lg">
+                <div class="flex justify-between items-center">
+                    <div class="text-gray-800">
+                        <h3 class="text-2xl font-bold">{{ subject_count }}</h3>
+                        <p>Total Subjects</p>
+                    </div>
+                    <i class="fas fa-book text-gray-800 text-4xl"></i>
+                </div>
+                <a href="#" class="text-gray-800 underline">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- Boxes Section Ends -->
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+            <!-- Pie Chart -->
+            <div class="bg-white p-5 rounded-lg shadow-lg">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold">Leave Status Chart</h3>
+                    <div class="flex space-x-2">
+                        <button type="button" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+            </div>
+
+            <!-- Bar Chart -->
+            <div class="bg-white p-5 rounded-lg shadow-lg">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold">Subjects Attend Chart</h3>
+                    <div class="flex space-x-2">
+                        <button type="button" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-6">
+            <div class="bg-white p-5 rounded-lg shadow-lg">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-lg font-semibold">Student Attendance Data</h3>
+                    <div class="flex space-x-2">
+                        <button type="button" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <canvas id="barChart2" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock main_content %}
+
+{% block custom_js %}
+<script>
+   $(document).ready(function(){
+       // Code for Pie Chart
+       var pieData = {
+           labels: ['Leave', 'Attendance'],
+           datasets: [{
+               data: [{{ leave_count }}, {{ attendance_count }}],
+               backgroundColor: ['#d1d5db', '#9ca3af'], // Light gray colors
+           }]
+       };
+
+       var pieChartCanvas = $('#pieChart').get(0).getContext('2d');
+       var pieOptions = {
+           maintainAspectRatio: false,
+           responsive: true,
+       };
+       var pieChart = new Chart(pieChartCanvas, {
+           type: 'pie',
+           data: pieData,
+           options: pieOptions
+       });
+
+       // Code for Bar Chart
+       var attendance_list = {{ attendance_list }};
+       var subject_list = {{ subject_list|safe }};
+       
+       var areaChartData = {
+           labels: subject_list,
+           datasets: [{
+               label: 'Subject Attend Chart',
+               backgroundColor: '#9ca3af', // Light gray
+               borderColor: '#6b7280', // Darker gray
+               data: attendance_list
+           }]
+       };
+
+       var barChartCanvas = $('#barChart').get(0).getContext('2d');
+       var barChartOptions = {
+           responsive: true,
+           maintainAspectRatio: false,
+           datasetFill: false
+       };
+       var barChart = new Chart(barChartCanvas, {
+           type: 'bar', 
+           data: areaChartData,
+           options: barChartOptions
+       });
+
+       // Code for Student Attendance by Subjects Bar Chart
+       var student_list = {{ student_list|safe }};
+       var attendance_present_list = {{ attendance_present_list }};
+       var attendance_absent_list = {{ attendance_absent_list }};
+
+       var areaChartData2 = {
+           labels: student_list,
+           datasets: [
+               {
+                   label: 'Student Attendance Chart for Present',
+                   backgroundColor: '#9ca3af', // Light gray
+                   borderColor: '#6b7280', // Darker gray
+                   data: attendance_present_list
+               },
+               {
+                   label: 'Student Attendance Chart for Absent',
+                   backgroundColor: '#d1d5db', // Lighter gray
+                   borderColor: '#6b7280', // Darker gray
+                   data: attendance_absent_list
+               }
+           ]
+       };
+
+       var barChartCanvas2 = $('#barChart2').get(0).getContext('2d');
+       var barChartOptions2 = {
+           responsive: true,
+           maintainAspectRatio: false,
+           datasetFill: false
+       };
+       var barChart2 = new Chart(barChartCanvas2, {
+           type: 'bar', 
+           data: areaChartData2,
+           options: barChartOptions2
+       });
+   });
+</script>
+{% endblock custom_js %}

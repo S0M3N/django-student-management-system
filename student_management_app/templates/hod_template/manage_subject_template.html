@@ -1,0 +1,95 @@
+{% extends 'hod_template/base_template.html' %}
+
+{% block page_title %}
+Manage Subjects
+{% endblock page_title %}
+
+{% block main_content %}
+
+{% load static %}
+
+<section class="content">
+    <div class="container mx-auto px-4 py-6">
+
+        <a href="{% url 'add_subject' %}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">+ Add
+            Subject</a>
+        <br class="my-2" />
+
+        {% if messages %}
+        <div class="mt-4">
+            {% for message in messages %}
+            <div class="alert {{ message.tags }}">
+                {% if message.tags == 'error' %}
+                <div class="bg-red-500 text-white rounded p-2 mb-2">
+                    {% elif message.tags == 'success' %}
+                    <div class="bg-green-500 text-white rounded p-2 mb-2">
+                        {% endif %}
+                        {{ message }}
+                        <button type="button" class="close" aria-label="Close"
+                            onclick="this.parentElement.style.display='none'">
+                            &times;
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+
+            <div class="mt-6">
+                <div class="overflow-hidden rounded-lg shadow">
+                    <div class="bg-white p-4">
+                        <h3 class="text-lg font-semibold">Subject Details</h3>
+
+                        <div class="flex justify-between items-center mt-4">
+                            <div class="relative">
+                                <input type="text" name="table_search"
+                                    class="border border-gray-300 rounded-lg py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    placeholder="Search">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-2">
+                                    <i class="fas fa-search text-gray-500"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white overflow-x-auto">
+                        <table class="min-w-full border-collapse">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="border px-4 py-2">ID</th>
+                                    <th class="border px-4 py-2">Subject Name</th>
+                                    <th class="border px-4 py-2">Course</th>
+                                    <th class="border px-4 py-2">Staff</th>
+                                    <th class="border px-4 py-2">Created At</th>
+                                    <th class="border px-4 py-2">Updated At</th>
+                                    <th class="border px-4 py-2">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for subject in subjects %}
+                                <tr class="hover:bg-gray-50">
+                                    <td class="border px-4 py-2">{{ subject.id }}</td>
+                                    <td class="border px-4 py-2">{{ subject.subject_name }}</td>
+                                    <td class="border px-4 py-2">{{ subject.course_id.course_name }}</td>
+                                    <td class="border px-4 py-2">{{ subject.staff_id.first_name }} {{ subject.staff_id.last_name }}</td>
+                                    <td class="border px-4 py-2">{{ subject.created_at }}</td>
+                                    <td class="border px-4 py-2">{{ subject.updated_at }}</td>
+                                    <td class="border px-4 py-2">
+                                        <a href="{% url 'edit_subject' subject.id %}"
+                                            class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">Edit</a>
+                                        <a href="{% url 'delete_subject' subject.id %}"
+                                            class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+</section>
+
+{% endblock main_content %}
