@@ -117,7 +117,7 @@ USE_L10N = True
 STATIC_URL = '/static/'
 
 # Directory where static files will be collected
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Additional static file directories (optional)
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
