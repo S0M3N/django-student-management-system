@@ -66,6 +66,19 @@ WSGI_APPLICATION = 'student_management_system.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'defaultdb',  # Database name
+        'USER': 'avnadmin',    # User
+        'PASSWORD': 'AVNS_5edjtln-1CCtdKsVXdU',  # Password
+        'HOST': 'pg-ab6ab6c-thesomen123-e69e.i.aivencloud.com',  # Host
+        'PORT': '16583',       # Port
+        'OPTIONS': {
+            'sslmode': 'require',  # Enforce SSL mode
+        },
+    }
+}
 
 
 # Password validation
