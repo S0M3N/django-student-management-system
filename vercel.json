@@ -7,10 +7,7 @@
         }
     ],
     "routes": [
-        {
-            "src": "/static/(.*)", 
-            "dest": "/staticfiles/$1"
-        },
+        
         {
             "src": "/(.*)",
             "dest": "student_management_system/wsgi.py"
